@@ -251,7 +251,7 @@ func GenericTest(t *testing.T, nclients int, unreliable bool, randomkeys bool) {
 						if j > 0 {
 							o := "x " + strconv.Itoa(cli) + " " + strconv.Itoa(j-1) + " y"
 							if !inHistory(o, l) {
-								t.Fatalf("error: old %v not in return\n%v\n", o, l)
+								t.Fatalf("error: old %v not in return\n%v key: %v %v\n", o, l, key, myck.clientId)
 							}
 						}
 						if inHistory(nv, l) {
@@ -270,7 +270,7 @@ func GenericTest(t *testing.T, nclients int, unreliable bool, randomkeys bool) {
 					v := Get(cfg, myck, key, opLog, cli)
 					// the following check only makes sense when we're not using random keys
 					if !randomkeys && v != last {
-						t.Fatalf("get wrong value, key %v, wanted:\n%v\n, got\n%v\n", key, last, v)
+						t.Fatalf("get wrong value, key %v, wanted:\n%v\n, got\n%v \n clientId: %v\n", key, last, v, myck.clientId)
 					}
 				}
 			}
@@ -352,7 +352,7 @@ func TestUnreliableOneKey2(t *testing.T) {
 			n++
 			// log.Printf("%d: append nv %v ov %v\n", me, nv, ov)
 			if inHistory(nv, ov) {
-				t.Fatalf("error: nv %v in returned values\n%v\n", nv, ov)
+				t.Fatalf("error: nv %v in returned values\n%v cID: %v\n", nv, ov, ck.clientId)
 			}
 		}
 	})
